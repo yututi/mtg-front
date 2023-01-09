@@ -6,7 +6,8 @@
     "dev": "PORT=8000 next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen:axios": "openapi-generator-cli generate -g typescript-axios -i ./schema/openapi.yml -o ./lib/gen/axios"
   },
   "dependencies": {
     "@next/font": "13.1.1",
@@ -18,6 +19,10 @@
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "swr": "^2.0.0",
     "typescript": "4.9.4"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2"
   }
 }
