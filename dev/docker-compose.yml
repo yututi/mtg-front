@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  api:
+    image: yututi/mtg-api
+    environment:
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
+      - ENABLE_RESPONSE_VALIDATION=yes
+      - LOG_LEVEL=debug
+      - FRONTEND_HOST=*
+    depends_on: db
+
+  batch:
+    image: yututi/mtg-data-import
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
+      - JSON_URL=https://mtgjson.com/api/v5/Pioneer.json
+      - KEEP_JSON_FILE=yes
+      - LOG_LEVEL=debug
+    command: >
+      npm run pm:prod &&
+      npm run importJson &&
+      tail -f /dev/null'
+    depends_on: db
+
+  db:
+    image: postgres:14
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+
+    

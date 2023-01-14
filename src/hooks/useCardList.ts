@@ -15,8 +15,6 @@ type CardListParams = {
 
 const useCardList = (param: CardListParams) => {
 
-  console.log(typeof window === undefined)
-
   const result = useSWR(JSON.stringify(param), () => {
 
     return api.getList(
@@ -26,7 +24,7 @@ const useCardList = (param: CardListParams) => {
       param.cost,
       param.types,
       param.rarity,
-      param.setCode)
+      param.setCode).then(res => res.data)
   }, {
     revalidateIfStale: false,
     revalidateOnFocus: false,

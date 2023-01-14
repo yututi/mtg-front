@@ -164,33 +164,33 @@ export interface CardDetail {
 /**
  * 
  * @export
- * @interface GetList200Response
+ * @interface CardPagination
  */
-export interface GetList200Response {
+export interface CardPagination {
     /**
      * 
      * @type {number}
-     * @memberof GetList200Response
+     * @memberof CardPagination
      */
-    'page'?: number;
+    'page': number;
     /**
      * 
      * @type {number}
-     * @memberof GetList200Response
+     * @memberof CardPagination
      */
-    'pageSize'?: number;
+    'pageSize': number;
     /**
      * 
      * @type {number}
-     * @memberof GetList200Response
+     * @memberof CardPagination
      */
-    'count'?: number;
+    'count': number;
     /**
      * 
      * @type {Array<Card>}
-     * @memberof GetList200Response
+     * @memberof CardPagination
      */
-    'list'?: Array<Card>;
+    'list': Array<Card>;
 }
 
 /**
@@ -317,7 +317,7 @@ export const CardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getList(page: number, name?: string, color?: Array<'B' | 'W' | 'U' | 'G' | 'R' | 'NONE'>, cost?: string, types?: Array<string>, rarity?: Array<string>, setCode?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetList200Response>> {
+        async getList(page: number, name?: string, color?: Array<'B' | 'W' | 'U' | 'G' | 'R' | 'NONE'>, cost?: string, types?: Array<string>, rarity?: Array<string>, setCode?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CardPagination>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getList(page, name, color, cost, types, rarity, setCode, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -353,7 +353,7 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getList(page: number, name?: string, color?: Array<'B' | 'W' | 'U' | 'G' | 'R' | 'NONE'>, cost?: string, types?: Array<string>, rarity?: Array<string>, setCode?: Array<string>, options?: any): AxiosPromise<GetList200Response> {
+        getList(page: number, name?: string, color?: Array<'B' | 'W' | 'U' | 'G' | 'R' | 'NONE'>, cost?: string, types?: Array<string>, rarity?: Array<string>, setCode?: Array<string>, options?: any): AxiosPromise<CardPagination> {
             return localVarFp.getList(page, name, color, cost, types, rarity, setCode, options).then((request) => request(axios, basePath));
         },
         /**
