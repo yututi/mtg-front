@@ -7,7 +7,8 @@ const nextConfig = {
         protocol: 'https',
         hostname: process.env.IMAGE_HOST
       }
-    ]
+    ],
+    minimumCacheTTL: 60 * 60 * 24 * 365
   }
 }
 

@@ -1,3 +1,5 @@
+import SearchConditionContext from "@/state/SearchConditionContext"
+import { useContext } from "react"
 import useSWR from "swr"
 import { CardApi } from "../lib/gen/axios"
 
@@ -5,26 +7,23 @@ const api = new CardApi()
 
 type CardListParams = {
   page: number
-  name?: string
-  color?: string[]
-  cost?: string
-  types?: string[]
-  rarity?: string[]
   setCode?: string[]
 }
 
 const useCardList = (param: CardListParams) => {
 
-  const result = useSWR(JSON.stringify(param), () => {
+  const conditions = useContext(SearchConditionContext)
+
+  const result = useSWR(JSON.stringify({ ...param, ...conditions }), () => {
 
     return api.getList(
       param.page,
-      param.name,
-      param.color as Array<'B' | 'W' | 'U' | 'G' | 'R' | 'NONE'>,
-      param.cost,
-      param.types,
-      param.rarity,
-      param.setCode).then(res => res.data)
+      conditions.text || undefined,
+      conditions.colors as Array<'B' | 'W' | 'U' | 'G' | 'R' | 'NONE'>,
+      `${conditions.manaCostCompare}:${conditions.manaCost}`,
+      conditions.types,
+      conditions.rarity,
+      conditions.setCode).then(res => res.data)
   }, {
     revalidateIfStale: false,
     revalidateOnFocus: false,

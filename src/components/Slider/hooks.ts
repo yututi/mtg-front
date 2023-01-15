@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react"
+import { MutableRefObject, useEffect, useRef, useState } from "react"
 
-export const useWidthSyncronizer = () => {
-  const [width, setWidth] = useState(1)
+export const useParentWidthSyncronizer = (initialWidth: number, parentRef: MutableRefObject<HTMLElement | undefined>) => {
+  const [width, setWidth] = useState(initialWidth)
   useEffect(() => {
     const syncWidth = () => {
-      setWidth(window.document.body.clientWidth)
+      setWidth(parentRef.current?.parentElement?.clientWidth || 0)
     }
     window.addEventListener("resize", syncWidth)
     syncWidth()

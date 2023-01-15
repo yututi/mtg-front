@@ -19,6 +19,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-window": "^1.8.8",
+    "reset-css": "^5.0.1",
+    "sharp": "^0.31.3",
     "swr": "^2.0.0"
   },
   "devDependencies": {

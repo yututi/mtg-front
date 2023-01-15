@@ -2,6 +2,9 @@ import Head from 'next/head'
 import Slider from '@/components/Slider'
 import { CachedPageProvider } from '@/state/CachedPageContext'
 import { PaginationProvider } from '@/state/PaginationContext'
+import ControlPanel from '@/components/search/ControlPanel'
+import { SearchConditionProvider } from '@/state/SearchConditionContext'
+import Container from "@/components/Container"
 
 
 export default function Home() {
@@ -16,11 +19,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main >
-        <PaginationProvider>
-          <CachedPageProvider>
-            <Slider />
-          </CachedPageProvider>
-        </PaginationProvider>
+        <Container>
+          <SearchConditionProvider>
+            <ControlPanel />
+            <PaginationProvider>
+              <CachedPageProvider>
+                <Slider />
+              </CachedPageProvider>
+            </PaginationProvider>
+          </SearchConditionProvider>
+        </Container>
       </main>
     </>
   )

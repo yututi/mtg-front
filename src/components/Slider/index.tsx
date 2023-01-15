@@ -3,29 +3,41 @@ import PaginationContext, { PaginationUpdateContext } from '@/state/PaginationCo
 import CachedPageContext, { CachedPageUpdateContext } from "@/state/CachedPageContext"
 import Image from 'next/image';
 import { CSSProperties, memo, useContext, useEffect, useRef, useState } from 'react';
-import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
+import { FixedSizeList, FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import styles from "./style.module.css"
-import { useHorizontalScroll, useWidthSyncronizer } from './hooks';
+import { useHorizontalScroll, useParentWidthSyncronizer } from './hooks';
+import SearchConditionContext from '@/state/SearchConditionContext';
 
 const Slider = () => {
 
-  const {
-    count
-  } = useContext(PaginationContext)
+  const { count } = useContext(PaginationContext)
 
-  const width = useWidthSyncronizer()
+  const conditions = useContext(SearchConditionContext)
+  const update = useContext(CachedPageUpdateContext)
+  const listRef = useRef<FixedSizeList<any>>(null)
 
-  const ref = useHorizontalScroll(0.1)
+  useEffect(() => {
+    update({
+      value: new Set()
+    })
+    listRef.current?.scrollTo(0)
+    listRef.current?.forceUpdate()
+  }, [conditions])
+
+  const ref = useHorizontalScroll(2)
+
+  const width = useParentWidthSyncronizer(size.w, ref)
 
   return (
     <List
       height={stepSize * (size.h + spacing) + scrollbarSize}
       useIsScrolling
-      itemCount={(count / pageSize) || 10}
+      itemCount={(count / pageSize) || 1}
       itemSize={colSize * (size.w + spacing)}
       layout="horizontal"
       width={width}
       outerRef={ref}
+      ref={listRef}
     >
       {CheckCardBlockRenderable}
     </List>
@@ -42,7 +54,7 @@ const size = {
 const spacing = 12
 const pageSize = 20
 const stepSize = Math.ceil(pageSize / colSize)
-const scrollbarSize = 15
+const scrollbarSize = 24
 
 const CheckCardBlockRenderable = (props: ListChildComponentProps) => {
 
@@ -69,8 +81,6 @@ const CardBlock = memo((props: ListChildComponentProps) => {
   const updateCachedPage = useContext(CachedPageUpdateContext)
 
   useEffect(() => {
-    if (!data) return
-
     updateCachedPage(pages => {
       if (pages.value.has(props.index)) return pages
       pages.value.add(props.index)
@@ -78,17 +88,19 @@ const CardBlock = memo((props: ListChildComponentProps) => {
         value: pages.value
       }
     })
+    if (!data) return
     updatePage(page => ({ ...page, count: data.count }))
   }, [data])
 
   const rowStyle: CSSProperties = {
     height: `${size.h}px`,
-    marginTop: "6px"
+    marginTop: `${spacing}px`
   }
 
   const cellStyle: CSSProperties = {
     height: `${size.h}px`,
-    width: `${size.w}px`
+    width: `${size.w}px`,
+    marginLeft: `${spacing}px`
   }
 
   return (
