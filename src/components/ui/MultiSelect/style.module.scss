@@ -1,0 +1,18 @@
+.selectWrapper {
+  position: relative;
+}
+
+.option {
+  border-radius: 8px;
+  padding: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-variant);
+  }
+}
+
+.optionSelected {
+  background-color: var(--primary-variant);
+}

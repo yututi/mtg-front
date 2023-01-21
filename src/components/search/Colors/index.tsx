@@ -1,3 +1,4 @@
+import MultiSelect from "@/components/ui/MultiSelect"
 import SearchConditionContext, { SearchConditionUpdateContext } from "@/state/SearchConditionContext"
 import { ChangeEvent, useContext } from "react"
 
@@ -11,26 +12,19 @@ const colorMap = {
   NONE: "無色"
 } as const
 
-const entries = Object.entries(colorMap)
-
 const Colors = () => {
 
   const { colors } = useContext(SearchConditionContext)
   const update = useContext(SearchConditionUpdateContext)
-  const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const target = e.currentTarget
+  const onChange = (values: string[]) => {
     update(conditions => ({
       ...conditions,
-      colors: [...target.selectedOptions].map(o => o.value)
+      colors: values
     }))
   }
 
   return (
-    <select value={colors} multiple onChange={onChange}>
-      {entries.map(([k, v]) => (
-        <option key={k} value={k}>{v}</option>
-      ))}
-    </select>
+    <MultiSelect values={colors} options={colorMap} onChange={onChange} />
   )
 }
 

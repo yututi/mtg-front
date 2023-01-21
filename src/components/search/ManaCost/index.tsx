@@ -33,7 +33,7 @@ const ManaCost = () => {
     <div>
       <div>
         {compareEntries.map(([k, v]) => (
-          <label htmlFor={`compare_${k}`}>
+          <label key={k} htmlFor={`compare_${k}`}>
             <input type="radio" checked={k === manaCostCompare} id={`compare_${k}`} radioGroup="a" value={k} onChange={onRadioChange} />
             {v}
           </label>

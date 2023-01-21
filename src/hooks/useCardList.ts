@@ -7,7 +7,6 @@ const api = new CardApi()
 
 type CardListParams = {
   page: number
-  setCode?: string[]
 }
 
 const useCardList = (param: CardListParams) => {

@@ -1,3 +1,4 @@
+import MultiSelect from "@/components/ui/MultiSelect"
 import SearchConditionContext, { SearchConditionUpdateContext } from "@/state/SearchConditionContext"
 import { ChangeEvent, useContext } from "react"
 
@@ -16,22 +17,15 @@ const Types = () => {
 
   const { types } = useContext(SearchConditionContext)
   const update = useContext(SearchConditionUpdateContext)
-  console.log("render type")
-  const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log("on change")
-    const target = e.currentTarget
+  const onChange = (values: string[]) => {
     update(conditions => ({
       ...conditions,
-      types: [...target.selectedOptions].map(o => o.value)
+      types: values
     }))
   }
 
   return (
-    <select value={types} multiple onChange={onChange}>
-      {typeEntries.map(([k, v]) => (
-        <option key={k} value={k}>{v}</option>
-      ))}
-    </select>
+    <MultiSelect values={types} options={typeMap} onChange={onChange} />
   )
 }
 

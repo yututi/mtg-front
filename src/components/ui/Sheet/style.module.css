@@ -1,0 +1,7 @@
+.sheet {
+  border: solid 1px gainsboro;
+  border-radius: 8px;
+  box-shadow: 0 0 1 1 rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 12px;
+}

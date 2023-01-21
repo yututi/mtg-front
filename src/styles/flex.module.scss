@@ -1,0 +1,43 @@
+@import "media";
+
+.horizontal {
+  display: flex;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.verticalIfMd {
+  display: flex;
+
+  @include mq(md) {
+    flex-direction: column;
+  }
+}
+
+.horizontalIfMd {
+  display: flex;
+  flex-direction: column;
+
+  @include mq(md) {
+    flex-direction: row;
+  }
+}
+
+.alignEnd {
+  align-items: flex-end;
+}
+
+.justfyEnd {
+  justify-content: flex-end;
+}
+
+.gap {
+  gap: 8px;
+}
+
+.gap2x {
+  gap: 16px;
+}

@@ -1,0 +1,68 @@
+@import "@/styles/media";
+
+.popup {
+
+  position: fixed;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0px;
+
+  @include mq(md) {
+    position: absolute;
+    display: block;
+    inset: unset;
+    width: max-content;
+  }
+
+  z-index: 1;
+}
+
+.stick-right {
+  @include mq(md) {
+    left: 0px;
+  }
+}
+
+.stick-left {
+  @include mq(md) {
+    right: 0px;
+  }
+}
+
+.stick-top {
+  @include mq(md) {
+    bottom: 0px;
+  }
+}
+
+.stick-bottom {
+  @include mq(md) {
+    top: 0px;
+  }
+}
+
+.offset-right {
+  @include mq(md) {
+    right: -100%;
+  }
+}
+
+.offset-left {
+  @include mq(md) {
+    left: 100%;
+  }
+}
+
+.offset-top {
+  @include mq(md) {
+    bottom: 100%;
+  }
+}
+
+.offset-bottom {
+  @include mq(md) {
+    top: 100%;
+  }
+}

@@ -5,6 +5,7 @@ import { PaginationProvider } from '@/state/PaginationContext'
 import ControlPanel from '@/components/search/ControlPanel'
 import { SearchConditionProvider } from '@/state/SearchConditionContext'
 import Container from "@/components/Container"
+import { DeckListProvider } from '@/state/DeckListContext'
 
 
 export default function Home() {
@@ -20,14 +21,16 @@ export default function Home() {
       </Head>
       <main >
         <Container>
-          <SearchConditionProvider>
-            <ControlPanel />
-            <PaginationProvider>
-              <CachedPageProvider>
-                <Slider />
-              </CachedPageProvider>
-            </PaginationProvider>
-          </SearchConditionProvider>
+          <DeckListProvider>
+            <SearchConditionProvider>
+              <ControlPanel />
+              <PaginationProvider>
+                <CachedPageProvider>
+                  <Slider />
+                </CachedPageProvider>
+              </PaginationProvider>
+            </SearchConditionProvider>
+          </DeckListProvider>
         </Container>
       </main>
     </>
