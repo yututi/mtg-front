@@ -4,17 +4,49 @@ import Colors from "../Colors"
 import ManaCost from "../ManaCost"
 import styles from "./style.module.css"
 import flex from "@/styles/flex.module.scss"
+import { memo, useContext, useEffect, useState } from "react"
+import Button from "@/components/ui/Button"
+import TempSearchConditionContext, { TempSearchConditionProvider } from "@/state/TempSearchConditionContext"
+import { SearchConditionUpdateContext } from "../../../state/SearchConditionContext"
 
 const ControlPanel = () => {
 
   return (
-    <div className={[styles.controlPanel, flex.horizontalIfMd].join(" ")}>
-      <Types />
-      <Rarity />
-      <Colors />
-      <ManaCost />
+    <div>
+      <TempSearchConditionProvider>
+        <div className={[styles.controlPanel, flex.horizontalIfMd, flex.gap].join(" ")}>
+          <div className={[flex.vertical, flex.gap].join(" ")}>
+            <Types />
+            <Rarity />
+            <Colors />
+          </div>
+          <div>
+            <ManaCost />
+          </div>
+        </div>
+        <div className={[flex.horizontal, flex.gap, flex.justfyEnd].join(" ")}>
+          <SearchButton />
+        </div>
+      </TempSearchConditionProvider>
     </div>
   )
 }
 
-export default ControlPanel
+const SearchButton = () => {
+
+  const tempConditions = useContext(TempSearchConditionContext)
+  const update = useContext(SearchConditionUpdateContext)
+
+  const onClick = () => {
+    update(current => ({
+      ...current,
+      ...tempConditions
+    }))
+  }
+
+  return (
+    <Button onClick={onClick}>検索</Button>
+  )
+}
+
+export default memo(ControlPanel)

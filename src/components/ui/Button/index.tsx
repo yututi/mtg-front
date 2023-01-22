@@ -3,12 +3,13 @@ import style from "./style.module.scss"
 
 type Props = {
   onClick?: () => void
+  disabled?: boolean
 }
 
-const Button: React.FC<PropsWithChildren<Props>> = ({ onClick, children }) => {
+const Button: React.FC<PropsWithChildren<Props>> = ({ onClick, children, disabled = false }) => {
 
   return (
-    <button className={style.button} onClick={onClick}>{children}</button>
+    <button disabled={false} className={style.button} onClick={onClick}>{children}</button>
   )
 }
 

@@ -1,6 +1,6 @@
 import MultiSelect from "@/components/ui/MultiSelect"
-import SearchConditionContext, { SearchConditionUpdateContext } from "@/state/SearchConditionContext"
-import { ChangeEvent, useContext } from "react"
+import TempSearchConditionContext, { TempSearchConditionUpdateContext } from "@/state/TempSearchConditionContext"
+import { useContext } from "react"
 
 
 const colorMap = {
@@ -14,8 +14,8 @@ const colorMap = {
 
 const Colors = () => {
 
-  const { colors } = useContext(SearchConditionContext)
-  const update = useContext(SearchConditionUpdateContext)
+  const { colors } = useContext(TempSearchConditionContext)
+  const update = useContext(TempSearchConditionUpdateContext)
   const onChange = (values: string[]) => {
     update(conditions => ({
       ...conditions,

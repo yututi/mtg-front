@@ -1,15 +1,22 @@
 @import "@/styles/media";
 
 .button {
-  outline: none;
   border: solid 1px transparent;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
   padding: 8px 12px;
   font-size: var(--font-size-text-sm);
+  color: var(--on-primary);
+  background-color: var(--primary);
+
+  transition: background-color 0.2s;
 
   @include mq(md) {
     font-size: var(--font-size-text-md);
+  }
+
+  &:hover {
+    background-color: var(--primary-variant);
   }
 }

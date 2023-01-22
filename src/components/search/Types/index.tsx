@@ -1,5 +1,5 @@
 import MultiSelect from "@/components/ui/MultiSelect"
-import SearchConditionContext, { SearchConditionUpdateContext } from "@/state/SearchConditionContext"
+import TempSearchConditionContext, { TempSearchConditionUpdateContext } from "@/state/TempSearchConditionContext"
 import { ChangeEvent, useContext } from "react"
 
 
@@ -15,8 +15,8 @@ const typeEntries = Object.entries(typeMap)
 
 const Types = () => {
 
-  const { types } = useContext(SearchConditionContext)
-  const update = useContext(SearchConditionUpdateContext)
+  const { types } = useContext(TempSearchConditionContext)
+  const update = useContext(TempSearchConditionUpdateContext)
   const onChange = (values: string[]) => {
     update(conditions => ({
       ...conditions,

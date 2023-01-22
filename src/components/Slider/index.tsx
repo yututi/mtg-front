@@ -21,7 +21,7 @@ const Slider = () => {
       value: new Set()
     })
     listRef.current?.scrollTo(0)
-    listRef.current?.forceUpdate()
+    // listRef.current?.forceUpdate()
   }, [conditions])
 
   const ref = useHorizontalScroll(2)

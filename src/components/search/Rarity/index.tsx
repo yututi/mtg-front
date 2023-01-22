@@ -1,5 +1,5 @@
 import MultiSelect from "@/components/ui/MultiSelect"
-import SearchConditionContext, { SearchConditionUpdateContext } from "@/state/SearchConditionContext"
+import TempSearchConditionContext, { TempSearchConditionUpdateContext } from "@/state/TempSearchConditionContext"
 import { ChangeEvent, useContext } from "react"
 
 
@@ -12,8 +12,8 @@ const rarityMap = {
 
 const Rarity = () => {
 
-  const { rarity } = useContext(SearchConditionContext)
-  const update = useContext(SearchConditionUpdateContext)
+  const { rarity } = useContext(TempSearchConditionContext)
+  const update = useContext(TempSearchConditionUpdateContext)
   const onChange = (values: string[]) => {
     update(conditions => ({
       ...conditions,

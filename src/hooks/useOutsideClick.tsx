@@ -1,24 +1,23 @@
 import { useEffect, useRef } from "react"
 
-const useOutsideClick = (onOutSideClicked: () => void) => {
+const useOutsideClick = (callback: () => void) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
 
-    const onClick = (e: MouseEvent) => {
+    const fireCallbackIfOutsideClicked = (e: Event) => {
 
-      console.log(e.target)
       if (!(e.target instanceof HTMLElement)) return
       if (!ref.current?.contains(e.target)) {
-        onOutSideClicked()
+        callback()
       }
     }
 
-    document.body.addEventListener("click", onClick)
+    document.body.addEventListener("click", fireCallbackIfOutsideClicked)
 
     return () => {
-      document.body.removeEventListener("click", onClick)
+      document.body.removeEventListener("click", fireCallbackIfOutsideClicked)
     }
-  }, [onOutSideClicked])
+  }, [callback])
 
   return ref
 }

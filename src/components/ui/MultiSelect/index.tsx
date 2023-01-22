@@ -5,6 +5,7 @@ import Popup from "../Popup"
 import Sheet from "../Sheet"
 import style from "./style.module.scss"
 import flex from "@/styles/flex.module.scss"
+import input from "@/styles/input.module.scss"
 
 
 type Props = {
@@ -34,12 +35,12 @@ const MultiSelect: React.FC<Props> = ({
 
   return (
     <div ref={ref} className={style.selectWrapper}>
-      <input type="text" readOnly value={values.map(v => options[v])} onClick={() => !isVisible && setIsVisible(true)} />
-      <Popup y="bottom" isVisible={isVisible}>
+      <input type="text" className={input.text} readOnly value={values.map(v => options[v])} onFocus={() => !isVisible && setIsVisible(true)} />
+      <Popup offsetY isVisible={isVisible}>
         <Sheet className={popupClass}>
           <div className={optionsClass}>
             {Object.entries(options).map(([key, value]) => (
-              <div className={optionClass(values.includes(key))} key={key} onClick={createOnSelectHandler(key)}>{value}</div>
+              <button className={optionClass(values.includes(key))} key={key} onClick={createOnSelectHandler(key)}>{value}</button>
             ))}
           </div>
           <div className={actionsClass}>

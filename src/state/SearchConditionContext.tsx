@@ -1,6 +1,6 @@
 import { createCtx } from "./createContext"
 
-type Condition = {
+export type Condition = {
   text: string | null
   types: string[]
   manaCost: number

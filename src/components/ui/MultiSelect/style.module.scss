@@ -7,6 +7,9 @@
   padding: 4px;
   transition: background-color 0.2s;
   cursor: pointer;
+  border: none;
+  background-color: var(--primary);
+  font-size: var(--font-size-text-md);
 
   &:hover {
     background-color: var(--primary-variant);
