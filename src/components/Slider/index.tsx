@@ -103,6 +103,7 @@ const CardBlock = memo((props: ListChildComponentProps) => {
     marginLeft: `${spacing}px`
   }
 
+  // TODO 左から埋めるように並び順を変える　
   return (
     <div style={props.style} className={styles.col}>
       {data && [...Array(stepSize).keys()].map(step => (

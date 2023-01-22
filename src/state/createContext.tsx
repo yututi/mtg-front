@@ -12,8 +12,8 @@ export function createCtx<A>(defaultValue: A) {
   const ctx = createContext(defaultValue);
   const updateCtx = createContext(defaultUpdate);
 
-  function Provider({ children }: PropsWithChildren<{}>) {
-    const [state, update] = useState(defaultValue);
+  function Provider({ children, defaultValue: provideredDefault }: PropsWithChildren<{ defaultValue?: A }>) {
+    const [state, update] = useState(provideredDefault || defaultValue);
     return (
       <ctx.Provider value={state}>
         <updateCtx.Provider value={update}>
