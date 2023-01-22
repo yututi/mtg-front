@@ -9,7 +9,8 @@ const nextConfig = {
       }
     ],
     minimumCacheTTL: 60 * 60 * 24 * 365
-  }
+  },
+  output: "standalone"
 }
 
 module.exports = nextConfig
