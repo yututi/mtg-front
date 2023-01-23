@@ -1,5 +1,8 @@
 # Dockerfile
 FROM node:18 AS builder
+
+ARG IMAGE_HOST
+
 WORKDIR /app
 COPY . .
 RUN npm ci
