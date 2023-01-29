@@ -1,12 +1,14 @@
 import useCardList from '@/hooks/useCardList';
 import PaginationContext, { PaginationUpdateContext } from '@/state/PaginationContext';
 import CachedPageContext, { CachedPageUpdateContext } from "@/state/CachedPageContext"
-import Image from 'next/image';
-import { CSSProperties, memo, useContext, useEffect, useRef, useState } from 'react';
+import { CSSProperties, memo, useContext, useEffect, useRef } from 'react';
 import { FixedSizeList, FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import styles from "./style.module.css"
 import { useHorizontalScroll, useParentWidthSyncronizer } from './hooks';
 import SearchConditionContext from '@/state/SearchConditionContext';
+import CardImage from '../CardImage';
+import Skeleton from '../Skeleton';
+import Card from '../Card';
 
 const Slider = () => {
 
@@ -32,7 +34,7 @@ const Slider = () => {
     <List
       height={stepSize * (size.h + spacing) + scrollbarSize}
       useIsScrolling
-      itemCount={(count / pageSize) || 1}
+      itemCount={Math.ceil(count / pageSize) || 1}
       itemSize={colSize * (size.w + spacing)}
       layout="horizontal"
       width={width}
@@ -48,7 +50,7 @@ export default Slider
 // TODO　この辺もcontextにする
 const colSize = 10
 const size = {
-  h: 150 * 1.5,
+  h: 150 * (680 / 488),
   w: 150
 }
 const spacing = 12
@@ -56,13 +58,24 @@ const pageSize = 20
 const stepSize = Math.ceil(pageSize / colSize)
 const scrollbarSize = 24
 
+const rowStyle: CSSProperties = {
+  height: `${size.h}px`,
+  marginTop: `${spacing}px`
+}
+
+const cellStyle: CSSProperties = {
+  height: `${size.h}px`,
+  width: `${size.w}px`,
+  marginLeft: `${spacing}px`
+}
+
 const CheckCardBlockRenderable = (props: ListChildComponentProps) => {
 
   const { value } = useContext(CachedPageContext)
 
   if (props.isScrolling && !value.has(props.index)) {
     return (
-      <div style={props.style}></div>
+      <CardBlockSkeleton {...props} />
     )
   }
 
@@ -92,16 +105,10 @@ const CardBlock = memo((props: ListChildComponentProps) => {
     updatePage(page => ({ ...page, count: data.count }))
   }, [data])
 
-  const rowStyle: CSSProperties = {
-    height: `${size.h}px`,
-    marginTop: `${spacing}px`
+  if (!data) {
+    return <CardBlockSkeleton {...props} />
   }
 
-  const cellStyle: CSSProperties = {
-    height: `${size.h}px`,
-    width: `${size.w}px`,
-    marginLeft: `${spacing}px`
-  }
 
   // TODO 左から埋めるように並び順を変える　
   return (
@@ -110,8 +117,26 @@ const CardBlock = memo((props: ListChildComponentProps) => {
         <div key={step} className={styles.row} style={rowStyle}>
           {data.list.slice(step * colSize, step * colSize + colSize).map(card => (
             <div key={card.uuid} style={cellStyle} className={styles.cell}>
-              <Image src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}/${card.uuid}.jpeg`} alt={card.name} height={size.h} width={size.w} />
+              <Card card={card} height={size.h} width={size.w} />
             </div>
+          ))}
+        </div>
+      ))
+      }
+    </div>
+  )
+})
+
+
+
+const CardBlockSkeleton = memo((props: ListChildComponentProps) => {
+
+  return (
+    <div style={props.style} className={styles.col}>
+      {[...Array(stepSize).keys()].map(step => (
+        <div key={step} className={styles.row} style={rowStyle}>
+          {[...Array(20).keys()].slice(step * colSize, step * colSize + colSize).map(_ => (
+            <Skeleton animation style={cellStyle} />
           ))}
         </div>
       ))

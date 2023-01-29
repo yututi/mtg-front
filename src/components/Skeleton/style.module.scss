@@ -1,0 +1,28 @@
+.skeleton {
+  position: relative;
+  border-radius: 8px;
+  background-color: var(--primary);
+
+}
+
+.animation {
+
+  &:after {
+    animation: 1.6s ease-in-out 0.5s infinite normal none running animation;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    content: "";
+    position: absolute;
+    transform: translateX(-100%);
+    inset: 0px;
+  }
+}
+
+@keyframes animation {
+  0% {
+    transform: translateX(-100%)
+  }
+
+  100% {
+    transform: translateX(100%)
+  }
+}

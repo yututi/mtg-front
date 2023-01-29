@@ -1,0 +1,26 @@
+.container {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.header {
+  padding: 4px;
+}
+
+.actions {
+  padding: 8px;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s;
+  position: absolute;
+  inset: 0;
+}
+
+.overlayVisible {
+  opacity: 1;
+}

@@ -1,0 +1,16 @@
+.container {
+  background-color: var(--primary);
+  overflow: hidden;
+  position: relative;
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+}
+
+.dummyCard {
+  background-color: var(--primary);
+  padding: 8px;
+  color: var(--on-primary)
+}
