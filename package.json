@@ -19,6 +19,7 @@
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hooks-use-modal": "^3.3.1",
     "react-window": "^1.8.8",
     "reset-css": "^5.0.1",
     "sharp": "^0.31.3",

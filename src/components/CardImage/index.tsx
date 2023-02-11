@@ -3,31 +3,29 @@ import Image from "next/image"
 import { Card } from "@/lib/gen/axios"
 import styles from "./style.module.css"
 import flex from "@/styles/flex.module.scss"
-import Skeleton from "../Skeleton"
 
-type Props = {
-  card: Card
-  onClick?: () => void
-  onError?: () => void
+type Size = {
   height: number
   width: number
 }
+
+type Fill = {
+  fill: true
+}
+
+type Props = {
+  card: Card
+  onError?: () => void
+}
+
+type SizeProps = Props & Size
+type FillProps = Props & Fill
 
 type LoadingState = "loading" | "done" | "failed"
 
 const containerClass = [styles.container, flex.vertical].join(" ")
 
-const CardImage: React.FC<Props> = ({ card, height, width, onClick, onError }) => {
-
-  const size = height > 250 ? "lg" : "md"
-
-  const style: CSSProperties = {
-    borderRadius: `${size === "lg" ? 12 : 8}px`,
-    height: `${height}px`,
-    width: `${width}px`,
-    cursor: onClick ? "hover" : "initial",
-    boxShadow: onClick ? "0 0 2 2 rgba(0, 0, 0, 0.1)" : ""
-  }
+const CardImage: React.FC<SizeProps | FillProps> = ({ card, onError, ...props }) => {
 
   const [loadingState, setLoadingState] = useState<LoadingState>("loading")
 
@@ -35,6 +33,12 @@ const CardImage: React.FC<Props> = ({ card, height, width, onClick, onError }) =
     onError && onError()
     setLoadingState("failed")
   }
+
+  const isFill = "fill" in props
+
+  const style = isFill ? getFillStyle() : getStyleBySize(props.height, props.width)
+
+  const size = (isFill || props.height > 250) ? "lg" : "md"
 
   return (
     <div className={containerClass} style={style}>
@@ -51,8 +55,7 @@ const CardImage: React.FC<Props> = ({ card, height, width, onClick, onError }) =
           unoptimized
           src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}/${size}/${card.uuid}.webp`}
           alt={card.name}
-          height={height}
-          width={width}
+          {...props}
           onLoad={() => setLoadingState("done")}
           onError={onErrorFacade}
         />
@@ -60,6 +63,19 @@ const CardImage: React.FC<Props> = ({ card, height, width, onClick, onError }) =
 
     </div>
   )
+}
+
+const getStyleBySize = (height: number, width: number): CSSProperties => {
+  return {
+    height: `${height}px`,
+    width: `${width}px`,
+  }
+}
+const getFillStyle = (): CSSProperties => {
+  return {
+    height: `100%`,
+    aspectRatio: `488/680`,
+  }
 }
 
 export default CardImage

@@ -135,8 +135,8 @@ const CardBlockSkeleton = memo((props: ListChildComponentProps) => {
     <div style={props.style} className={styles.col}>
       {[...Array(stepSize).keys()].map(step => (
         <div key={step} className={styles.row} style={rowStyle}>
-          {[...Array(20).keys()].slice(step * colSize, step * colSize + colSize).map(_ => (
-            <Skeleton animation style={cellStyle} />
+          {[...Array(20).keys()].slice(step * colSize, step * colSize + colSize).map(index => (
+            <Skeleton key={index} animation style={cellStyle} />
           ))}
         </div>
       ))

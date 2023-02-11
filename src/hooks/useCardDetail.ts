@@ -11,7 +11,7 @@ const useCardDetail = (param: CardListParams) => {
 
   const result = useSWR(
     JSON.stringify({ ...param }),
-    () => api.getOne(param.uuid),
+    () => api.getOne(param.uuid).then(res => res.data),
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
