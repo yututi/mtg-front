@@ -20,4 +20,4 @@ cd devenv
 sh init.sh
 ```
 
-プロジェクトのルートて`npm run dev`で立ち上がります。
+プロジェクトのルート`でnpm run dev`で立ち上がります。
