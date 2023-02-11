@@ -22,7 +22,7 @@ services:
       - JSON_URL=https://mtgjson.com/api/v5/Pioneer.json
       - KEEP_JSON_FILE=yes
       - LOG_LEVEL=debug
-      - S3_BUCKET_NAME=ytt-card-images
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
     tty: true
     depends_on:
       - db

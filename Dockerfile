@@ -1,4 +1,4 @@
-# Dockerfile
+# SSR用
 FROM node:18 AS builder
 
 ARG IMAGE_HOST
