@@ -5,12 +5,7 @@ import { Condition } from "@/types/SearchCondition"
 // TODO SearchConditionContextと同じなので使いまわしたい
 // 検索条件を一時的に保持するために使う
 
-
-const [
-  ctx,
-  updateCtx,
-  provider
-] = createCtx<Condition>({
+export const getInitialCondition = () => ({
   colors: [],
   manaCost: 1,
   manaCostCompare: "gte",
@@ -19,6 +14,12 @@ const [
   rarity: [],
   setCode: []
 })
+
+const [
+  ctx,
+  updateCtx,
+  provider
+] = createCtx<Condition>(getInitialCondition())
 
 export default ctx
 export const TempSearchConditionUpdateContext = updateCtx

@@ -1,4 +1,5 @@
 
+import { getInitialCondition } from "@/state/TempSearchConditionContext"
 import { Condition } from "@/types/SearchCondition"
 import { isEmptyObj } from "@/utils"
 import { useRouter } from "next/router"
@@ -9,7 +10,7 @@ export const useSearchCondition = () => {
   const router = useRouter()
   const query = useMemo(() => {
 
-    if (isEmptyObj(router.query)) return {}
+    if (isEmptyObj(router.query)) return getInitialCondition()
 
     return {
       colors: toArray(router.query.colors),
