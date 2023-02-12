@@ -59,7 +59,7 @@ const stepSize = Math.ceil(pageSize / colSize)
 const scrollbarSize = 24
 
 const rowStyle: CSSProperties = {
-  height: `${size.h * stepSize}px`,
+  height: `${(size.h + spacing) * stepSize}px`,
 }
 
 const cellStyle: CSSProperties = {
