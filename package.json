@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen:axios": "openapi-generator-cli generate -g typescript-axios -i ./schema/openapi.yml -o ./src/lib/gen/axios"
+    "gen:axios": "openapi-generator-cli generate -g typescript-axios -i ./schema/openapi.yml -o ./src/lib/gen/axios",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@next/font": "13.1.1",
@@ -27,6 +29,13 @@
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
+    "@storybook/addon-essentials": "^7.0.0-beta.46",
+    "@storybook/addon-interactions": "^7.0.0-beta.46",
+    "@storybook/addon-links": "^7.0.0-beta.46",
+    "@storybook/blocks": "^7.0.0-beta.46",
+    "@storybook/nextjs": "^7.0.0-beta.46",
+    "@storybook/react": "^7.0.0-beta.46",
+    "@storybook/testing-library": "^0.0.14-next.1",
     "@types/react-window": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "eslint": "^8.31.0",
@@ -35,7 +44,9 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.0",
+    "eslint-plugin-storybook": "^0.6.10",
     "sass": "^1.57.1",
+    "storybook": "^7.0.0-beta.46",
     "typescript": "^4.9.4"
   }
 }
