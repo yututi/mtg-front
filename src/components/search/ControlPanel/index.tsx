@@ -7,7 +7,7 @@ import flex from "@/styles/flex.module.scss"
 import { memo, useContext } from "react"
 import Button from "@/components/ui/Button"
 import TempSearchConditionContext, { TempSearchConditionProvider } from "@/state/TempSearchConditionContext"
-import { SearchConditionUpdateContext } from "../../../state/SearchConditionContext"
+import { useUpdateSearchCondition } from "@/hooks/useSearchCondition"
 
 const ControlPanel = () => {
 
@@ -35,13 +35,11 @@ const ControlPanel = () => {
 const SearchButton = () => {
 
   const tempConditions = useContext(TempSearchConditionContext)
-  const update = useContext(SearchConditionUpdateContext)
+
+  const update = useUpdateSearchCondition()
 
   const onClick = () => {
-    update(current => ({
-      ...current,
-      ...tempConditions
-    }))
+    update(tempConditions)
   }
 
   return (

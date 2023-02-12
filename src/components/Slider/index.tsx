@@ -1,7 +1,7 @@
 import useCardList from '@/hooks/useCardList';
 import PaginationContext, { PaginationUpdateContext } from '@/state/PaginationContext';
 import CachedPageContext, { CachedPageUpdateContext } from "@/state/CachedPageContext"
-import { CSSProperties, memo, useContext, useEffect, useRef } from 'react';
+import { CSSProperties, memo, useContext, useEffect, useMemo, useRef } from 'react';
 import { FixedSizeList, FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import styles from "./style.module.css"
 import { useHorizontalScroll, useParentWidthSyncronizer } from './hooks';
@@ -9,12 +9,13 @@ import SearchConditionContext from '@/state/SearchConditionContext';
 import CardImage from '../CardImage';
 import Skeleton from '../Skeleton';
 import Card from '../Card';
+import { useSearchCondition } from '@/hooks/useSearchCondition';
 
 const Slider = () => {
 
   const { count } = useContext(PaginationContext)
 
-  const conditions = useContext(SearchConditionContext)
+  const conditions = useSearchCondition()
   const update = useContext(CachedPageUpdateContext)
   const listRef = useRef<FixedSizeList<any>>(null)
 
@@ -75,7 +76,9 @@ const CheckCardBlockRenderable = (props: ListChildComponentProps) => {
 
   if (props.isScrolling && !value.has(props.index)) {
     return (
-      <CardBlockSkeleton {...props} />
+      <div style={props.style} className={styles.col}>
+        <CardBlockSkeleton />
+      </div>
     )
   }
 
@@ -105,42 +108,44 @@ const CardBlock = memo((props: ListChildComponentProps) => {
     updatePage(page => ({ ...page, count: data.count }))
   }, [data])
 
-  if (!data) {
-    return <CardBlockSkeleton {...props} />
-  }
+  const _CardBlock = useMemo(() => {
 
+    if (!data) {
+      return <CardBlockSkeleton />
+    }
+
+    return [...Array(stepSize).keys()].map(step => (
+      <div key={step} className={styles.row} style={rowStyle}>
+        {data.list.slice(step * colSize, step * colSize + colSize).map(card => (
+          <div key={card.uuid} style={cellStyle} className={styles.cell}>
+            <Card card={card} height={size.h} width={size.w} />
+          </div>
+        ))}
+      </div>
+    ));
+  }, [data])
 
   // TODO 左から埋めるように並び順を変える　
   return (
     <div style={props.style} className={styles.col}>
-      {data && [...Array(stepSize).keys()].map(step => (
-        <div key={step} className={styles.row} style={rowStyle}>
-          {data.list.slice(step * colSize, step * colSize + colSize).map(card => (
-            <div key={card.uuid} style={cellStyle} className={styles.cell}>
-              <Card card={card} height={size.h} width={size.w} />
-            </div>
-          ))}
-        </div>
-      ))
-      }
+      {_CardBlock}
     </div>
   )
 })
 
 
 
-const CardBlockSkeleton = memo((props: ListChildComponentProps) => {
+const CardBlockSkeleton = () => {
 
   return (
-    <div style={props.style} className={styles.col}>
+    <>
       {[...Array(stepSize).keys()].map(step => (
         <div key={step} className={styles.row} style={rowStyle}>
           {[...Array(20).keys()].slice(step * colSize, step * colSize + colSize).map(index => (
             <Skeleton key={index} animation style={cellStyle} />
           ))}
         </div>
-      ))
-      }
-    </div>
+      ))}
+    </>
   )
-})
+}

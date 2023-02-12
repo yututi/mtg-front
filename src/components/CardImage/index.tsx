@@ -74,6 +74,7 @@ const getStyleBySize = (height: number, width: number): CSSProperties => {
 const getFillStyle = (): CSSProperties => {
   return {
     height: `100%`,
+    width: "auto",
     aspectRatio: `488/680`,
   }
 }

@@ -1,7 +1,9 @@
-import SearchConditionContext from "@/state/SearchConditionContext"
+
+import { Condition } from "@/types/SearchCondition"
 import { useContext } from "react"
 import useSWR from "swr"
 import { CardApi } from "../lib/gen/axios"
+import { useSearchCondition } from "./useSearchCondition"
 
 const api = new CardApi()
 
@@ -11,7 +13,7 @@ type CardListParams = {
 
 const useCardList = (param: CardListParams) => {
 
-  const conditions = useContext(SearchConditionContext)
+  const conditions = useSearchCondition()
 
   const result = useSWR(JSON.stringify({ ...param, ...conditions }), () => {
 

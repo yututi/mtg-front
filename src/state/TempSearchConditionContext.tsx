@@ -1,6 +1,6 @@
 import { createCtx } from "./createContext"
 
-import { Condition } from "./SearchConditionContext"
+import { Condition } from "@/types/SearchCondition"
 
 // TODO SearchConditionContextと同じなので使いまわしたい
 // 検索条件を一時的に保持するために使う

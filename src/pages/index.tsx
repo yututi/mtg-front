@@ -3,9 +3,9 @@ import Slider from '@/components/Slider'
 import { CachedPageProvider } from '@/state/CachedPageContext'
 import { PaginationProvider } from '@/state/PaginationContext'
 import ControlPanel from '@/components/search/ControlPanel'
-import { SearchConditionProvider } from '@/state/SearchConditionContext'
 import Container from "@/components/Container"
 import { DeckListProvider } from '@/state/DeckListContext'
+import { SWRConfig } from 'swr'
 
 
 export default function Home() {
@@ -20,18 +20,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main >
-        <Container>
-          <DeckListProvider>
-            <SearchConditionProvider>
+        <SWRConfig value={{
+          revalidateIfStale: false,
+          revalidateOnFocus: false,
+          revalidateOnReconnect: false
+        }}>
+          <Container>
+            <DeckListProvider>
               <ControlPanel />
               <PaginationProvider>
                 <CachedPageProvider>
                   <Slider />
                 </CachedPageProvider>
               </PaginationProvider>
-            </SearchConditionProvider>
-          </DeckListProvider>
-        </Container>
+            </DeckListProvider>
+          </Container>
+        </SWRConfig>
       </main>
     </>
   )
