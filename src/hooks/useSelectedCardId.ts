@@ -18,10 +18,13 @@ export const useSelectedCardId = () => {
     }
 
     router.events.on("hashChangeStart", onHashChange)
+
+    onHashChange(router.asPath)
+
     return () => {
       router.events.off("hashChangeStart", onHashChange)
     }
-  })
+  }, [])
 
   return id
 }

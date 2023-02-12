@@ -27,7 +27,7 @@ const Card: React.FC<Props> = ({ card, abstract = false }) => {
 
   return (
     <div ref={ref} className={styles.container} onClick={onClick}>
-      <CardImage uuid={card.uuid} name={card.name} size="sm" suspend={!abstract} />
+      <CardImage uuid={card.uuid} name={card.name} size="sm" suspend={abstract} />
       <div className={[styles.overlay, isMouseOver && styles.overlayVisible].join(" ")}></div>
       <CardActions card={card} isVisible={isMouseOver} />
     </div>

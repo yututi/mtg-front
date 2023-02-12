@@ -2,6 +2,8 @@
   background-color: var(--primary);
   overflow: hidden;
   position: relative;
+  max-width: 800px;
+  min-width: 100%;
 }
 
 .img {
@@ -13,4 +15,12 @@
   background-color: var(--primary);
   padding: 8px;
   color: var(--on-primary)
+}
+
+.descriptions {
+  padding: 0 8px;
+}
+
+.title {
+  font-size: 26px;
 }

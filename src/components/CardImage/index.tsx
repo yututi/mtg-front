@@ -10,8 +10,8 @@ export const SIZES = {
     width: 150
   },
   lg: {
-    height: 680,
-    width: 488
+    height: 340,
+    width: 244
   }
 } as const
 type Size = {
@@ -55,14 +55,7 @@ const CardImage: React.FC<SizeProps | FillProps> = ({ uuid, name, onError, suspe
 
   return (
     <div className={containerClass} style={style}>
-      {loadingState !== "done" && (
-        <div className={[styles.dummyCard, flex.itemGrow].join(" ")}>
-          <p>
-            {name}
-          </p>
-        </div>
-      )}
-      {loadingState !== "failed" && suspend && (
+      {loadingState !== "failed" && !suspend && (
         <Image
           className={styles.img}
           unoptimized
@@ -74,6 +67,13 @@ const CardImage: React.FC<SizeProps | FillProps> = ({ uuid, name, onError, suspe
         />
       )}
 
+      {(loadingState !== "done" || suspend) && (
+        <div className={[styles.dummyCard, flex.itemGrow].join(" ")}>
+          <p>
+            {name}
+          </p>
+        </div>
+      )}
     </div>
   )
 }

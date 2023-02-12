@@ -24,7 +24,7 @@ const Slider = () => {
     })
     listRef.current?.scrollTo(0)
     // listRef.current?.forceUpdate()
-  }, [conditions])
+  }, [JSON.stringify(conditions)])
 
   const ref = useHorizontalScroll(2)
 
@@ -84,7 +84,7 @@ const CheckCardBlockRenderable = (props: ListChildComponentProps) => {
   return <CardBlock {...props} />
 }
 
-const CardBlock = memo((props: ListChildComponentProps) => {
+const CardBlock = (props: ListChildComponentProps) => {
 
   const {
     data
@@ -95,6 +95,9 @@ const CardBlock = memo((props: ListChildComponentProps) => {
   const updatePage = useContext(PaginationUpdateContext)
   const updateCachedPage = useContext(CachedPageUpdateContext)
 
+  // TODO この辺汚い
+  // 読み込み済みのページ番号をキャッシュ
+  // Sliderのスクロールサイズを決定するためcountを更新(検索条件ごとに１回呼べば問題ないが…)
   useEffect(() => {
     updateCachedPage(pages => {
       if (pages.value.has(props.index)) return pages
@@ -117,19 +120,19 @@ const CardBlock = memo((props: ListChildComponentProps) => {
       <div key={colIndex} className={styles.col} style={rowStyle}>
         {data.list.slice(colIndex * stepSize, colIndex * stepSize + stepSize).map(card => (
           <div key={card.uuid} style={cellStyle} className={styles.cell}>
-            <Card card={card} height={size.h} width={size.w} />
+            <Card card={card} height={size.h} width={size.w} abstract={props.isScrolling} />
           </div>
         ))}
       </div>
     ));
-  }, [data])
+  }, [data, props.isScrolling])
 
   return (
     <div style={props.style} className={styles.row}>
       {_CardBlock}
     </div>
   )
-})
+}
 
 const CardBlockSkeleton = ({ animation = false }: { animation?: boolean }) => {
 
@@ -137,7 +140,7 @@ const CardBlockSkeleton = ({ animation = false }: { animation?: boolean }) => {
     <>
       {[...Array(colSize).keys()].map(colIndex => (
         <div key={colIndex} className={styles.col} style={rowStyle}>
-          {[...Array(20).keys()].slice(colIndex * stepSize, colIndex * stepSize + stepSize).map(index => (
+          {[...Array(pageSize).keys()].slice(colIndex * stepSize, colIndex * stepSize + stepSize).map(index => (
             <Skeleton key={index} animation={animation} style={cellStyle} />
           ))}
         </div>
