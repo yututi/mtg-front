@@ -33,11 +33,16 @@ const MultiSelect: React.FC<Props> = ({
     onChange(values.includes(value) ? values.filter(v => v !== value) : [...values, value])
   }
 
+  const onBlur: React.FocusEventHandler<HTMLDivElement> = (e) => {
+    if (ref.current?.contains(e.relatedTarget)) return
+    setIsVisible(false)
+  }
+
   return (
     <div ref={ref} className={style.selectWrapper}>
       <input type="text" className={input.text} readOnly value={values.map(v => options[v])} onFocus={() => !isVisible && setIsVisible(true)} />
       <Popup offsetY isVisible={isVisible}>
-        <Sheet className={popupClass}>
+        <Sheet className={popupClass} onBlur={onBlur}>
           <div className={optionsClass}>
             {Object.entries(options).map(([key, value]) => (
               <button className={optionClass(values.includes(key))} key={key} onClick={createOnSelectHandler(key)}>{value}</button>

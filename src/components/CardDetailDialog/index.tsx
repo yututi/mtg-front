@@ -23,6 +23,7 @@ const CardDetailDialog = () => {
     updateSelectedCardId()
   }
 
+  // FIXME モーダルクリックで閉じた時にupdateSelectedCardIdを呼び出せない
   return (
     <Modal>
       <header><Button onClick={onClose}>x</Button></header>

@@ -1,10 +1,11 @@
-import { PropsWithChildren } from "react"
+import React, { PropsWithChildren } from "react"
 import style from "./style.module.css"
 
-const Sheet: React.FC<PropsWithChildren<{ className?: string }>> = ({ className, children }) => {
+// TODO コンポーネントである必要がない
+const Sheet: React.FC<PropsWithChildren<JSX.IntrinsicElements["div"]>> = ({ children, className, ...props }) => {
 
   return (
-    <div className={[style.sheet, className].join(" ")}>
+    <div className={[style.sheet, className].join(" ")} {...props}>
       {children}
     </div>
   )

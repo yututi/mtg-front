@@ -50,7 +50,7 @@ const CardDescription: React.FC<DescriptionProps> = ({ detail }) => {
         {detail.name}
       </h1>
       <div>
-        {detail.text?.split(/\n/g).map(line => <p>{line}</p>)}
+        {detail.text?.split(/\n/g).map(line => <p key={line}>{line}</p>)}
       </div>
     </div>
   )
