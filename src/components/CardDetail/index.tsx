@@ -1,7 +1,5 @@
 import useCardDetail from '@/hooks/useCardDetail';
 import { Card } from '@/lib/gen/axios';
-import CardDetailModalContext from '@/state/CardDetailModalContext';
-import { useContext } from 'react';
 import CardImage from '../CardImage';
 import Skeleton from '../Skeleton';
 import style from "./style.module.scss"
@@ -13,10 +11,10 @@ type Props = {
 const CardDetail: React.FC<Props> = ({ card }) => {
 
   return (
-    <div className={style.detailWrapper}>
+    <div className={style.container}>
       <div className={style.body}>
         <div className={style.image}>
-          <CardImage card={card} height={680} width={488} />
+          <CardImage card={card} size="lg" />
         </div>
         <div className={style.description}>
           <CardDescription card={card} />

@@ -4,17 +4,21 @@ import Colors from "../Colors"
 import ManaCost from "../ManaCost"
 import styles from "./style.module.css"
 import flex from "@/styles/flex.module.scss"
-import { memo, useContext } from "react"
+import { memo, useContext, useEffect } from "react"
 import Button from "@/components/ui/Button"
-import TempSearchConditionContext, { TempSearchConditionProvider } from "@/state/TempSearchConditionContext"
-import { useUpdateSearchCondition } from "@/hooks/useSearchCondition"
+import TempSearchConditionContext, { TempSearchConditionProvider, TempSearchConditionUpdateContext } from "@/state/TempSearchConditionContext"
+import { useSearchCondition, useUpdateSearchCondition } from "@/hooks/useSearchCondition"
+
+const controlsClass = [styles.controlPanel, flex.horizontalIfMd, flex.gap].join(" ")
+const controlActionsClass = [flex.horizontal, flex.gap, flex.justfyEnd].join(" ")
 
 const ControlPanel = () => {
 
   return (
     <div>
       <TempSearchConditionProvider>
-        <div className={[styles.controlPanel, flex.horizontalIfMd, flex.gap].join(" ")}>
+        <SyncronizeTempConditionToQuery />
+        <div className={controlsClass}>
           <div className={[flex.vertical, flex.gap].join(" ")}>
             <Types />
             <Rarity />
@@ -24,12 +28,33 @@ const ControlPanel = () => {
             <ManaCost />
           </div>
         </div>
-        <div className={[flex.horizontal, flex.gap, flex.justfyEnd].join(" ")}>
+        <div className={controlActionsClass}>
           <SearchButton />
         </div>
       </TempSearchConditionProvider>
     </div>
   )
+}
+
+// 最初のレンダリング時のみ、検索パネルの値をクエリと一致させる. 
+// TempSearchConditionProviderの初期値に渡したいがrouter.queryはinitial renderingのタイミングで空なので...
+const SyncronizeTempConditionToQuery = () => {
+
+  const condition = useSearchCondition()
+  const update = useContext(TempSearchConditionUpdateContext)
+
+  useEffect(() => {
+    if (Object.keys(condition).length === 0) return
+
+    update((value) => {
+      return {
+        ...value,
+        ...condition
+      }
+    })
+  }, [condition])
+
+  return null
 }
 
 const SearchButton = () => {

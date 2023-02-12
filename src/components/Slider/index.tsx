@@ -5,8 +5,7 @@ import { CSSProperties, memo, useContext, useEffect, useMemo, useRef } from 'rea
 import { FixedSizeList, FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import styles from "./style.module.css"
 import { useHorizontalScroll, useParentWidthSyncronizer } from './hooks';
-import SearchConditionContext from '@/state/SearchConditionContext';
-import CardImage from '../CardImage';
+import { SIZES } from '../CardImage';
 import Skeleton from '../Skeleton';
 import Card from '../Card';
 import { useSearchCondition } from '@/hooks/useSearchCondition';
@@ -51,8 +50,8 @@ export default Slider
 // TODO　この辺もcontextにする
 const colSize = 10
 const size = {
-  h: 150 * (680 / 488),
-  w: 150
+  h: SIZES.sm.height,
+  w: SIZES.sm.width
 }
 const spacing = 12
 const pageSize = 20
@@ -60,13 +59,13 @@ const stepSize = Math.ceil(pageSize / colSize)
 const scrollbarSize = 24
 
 const rowStyle: CSSProperties = {
-  height: `${size.h}px`,
-  marginTop: `${spacing}px`
+  height: `${size.h * stepSize}px`,
 }
 
 const cellStyle: CSSProperties = {
   height: `${size.h}px`,
   width: `${size.w}px`,
+  marginTop: `${spacing}px`,
   marginLeft: `${spacing}px`
 }
 
@@ -114,9 +113,9 @@ const CardBlock = memo((props: ListChildComponentProps) => {
       return <CardBlockSkeleton />
     }
 
-    return [...Array(stepSize).keys()].map(step => (
-      <div key={step} className={styles.row} style={rowStyle}>
-        {data.list.slice(step * colSize, step * colSize + colSize).map(card => (
+    return [...Array(colSize).keys()].map(colIndex => (
+      <div key={colIndex} className={styles.col} style={rowStyle}>
+        {data.list.slice(colIndex * stepSize, colIndex * stepSize + stepSize).map(card => (
           <div key={card.uuid} style={cellStyle} className={styles.cell}>
             <Card card={card} height={size.h} width={size.w} />
           </div>
@@ -127,7 +126,7 @@ const CardBlock = memo((props: ListChildComponentProps) => {
 
   // TODO 左から埋めるように並び順を変える　
   return (
-    <div style={props.style} className={styles.col}>
+    <div style={props.style} className={styles.row}>
       {_CardBlock}
     </div>
   )
@@ -139,9 +138,9 @@ const CardBlockSkeleton = () => {
 
   return (
     <>
-      {[...Array(stepSize).keys()].map(step => (
-        <div key={step} className={styles.row} style={rowStyle}>
-          {[...Array(20).keys()].slice(step * colSize, step * colSize + colSize).map(index => (
+      {[...Array(colSize).keys()].map(colIndex => (
+        <div key={colIndex} className={styles.col} style={rowStyle}>
+          {[...Array(20).keys()].slice(colIndex * stepSize, colIndex * stepSize + stepSize).map(index => (
             <Skeleton key={index} animation style={cellStyle} />
           ))}
         </div>

@@ -19,7 +19,7 @@ const Card: React.FC<Props> = ({ card, height, width }) => {
 
   return (
     <div ref={ref} className={styles.container}>
-      <CardImage {...{ card, height, width }} />
+      <CardImage card={card} size="sm" />
       <div className={[styles.overlay, isMouseOver && styles.overlayVisible].join(" ")}></div>
       <CardActions card={card} isVisible={isMouseOver} />
     </div>

@@ -4,9 +4,18 @@ import { Card } from "@/lib/gen/axios"
 import styles from "./style.module.css"
 import flex from "@/styles/flex.module.scss"
 
+export const SIZES = {
+  sm: {
+    height: 209,
+    width: 150
+  },
+  lg: {
+    height: 680,
+    width: 488
+  }
+} as const
 type Size = {
-  height: number
-  width: number
+  size: keyof typeof SIZES
 }
 
 type Fill = {
@@ -36,9 +45,11 @@ const CardImage: React.FC<SizeProps | FillProps> = ({ card, onError, ...props })
 
   const isFill = "fill" in props
 
-  const style = isFill ? getFillStyle() : getStyleBySize(props.height, props.width)
+  const style = isFill ? getFillStyle() : getStyleBySize(SIZES[props.size])
 
-  const size = (isFill || props.height > 250) ? "lg" : "md"
+  const size = (isFill || props.size === "lg") ? "lg" : "md"
+
+  const sizeProp = isFill ? props : SIZES[props.size]
 
   return (
     <div className={containerClass} style={style}>
@@ -55,7 +66,7 @@ const CardImage: React.FC<SizeProps | FillProps> = ({ card, onError, ...props })
           unoptimized
           src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}/${size}/${card.uuid}.webp`}
           alt={card.name}
-          {...props}
+          {...sizeProp}
           onLoad={() => setLoadingState("done")}
           onError={onErrorFacade}
         />
@@ -65,7 +76,7 @@ const CardImage: React.FC<SizeProps | FillProps> = ({ card, onError, ...props })
   )
 }
 
-const getStyleBySize = (height: number, width: number): CSSProperties => {
+const getStyleBySize = ({ height, width }: { height: number, width: number }): CSSProperties => {
   return {
     height: `${height}px`,
     width: `${width}px`,

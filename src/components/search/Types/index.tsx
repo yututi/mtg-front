@@ -11,8 +11,6 @@ const typeMap = {
   Sorcery: "ソーサリー"
 } as const
 
-const typeEntries = Object.entries(typeMap)
-
 const Types = () => {
 
   const { types } = useContext(TempSearchConditionContext)

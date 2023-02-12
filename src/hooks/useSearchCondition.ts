@@ -1,12 +1,32 @@
 
 import { Condition } from "@/types/SearchCondition"
+import { isEmptyObj } from "@/utils"
 import { useRouter } from "next/router"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useMemo } from "react"
 
 
 export const useSearchCondition = () => {
   const router = useRouter()
-  return router.query as unknown as Condition
+  const query = useMemo(() => {
+
+    if (isEmptyObj(router.query)) return {}
+
+    return {
+      colors: toArray(router.query.colors),
+      manaCost: router.query.manaCost,
+      manaCostCompare: router.query.manaCostCompare,
+      rarity: toArray(router.query.rarity),
+      setCode: toArray(router.query.setCode),
+      text: router.query.text || "",
+      types: toArray(router.query.types)
+    }
+  }, [router.query])
+  return query as unknown as Condition
+}
+
+const toArray = (value: string | string[] | undefined) => {
+  if (!value) return []
+  return typeof value === "string" ? [value] : value
 }
 
 export const useUpdateSearchCondition = () => {
