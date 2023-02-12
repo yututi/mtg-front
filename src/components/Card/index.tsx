@@ -6,20 +6,28 @@ import CardImage from "../CardImage"
 import useMouseOver from "@/hooks/useMouseOver"
 import Popup from "../ui/Popup"
 import Button from "../ui/Button"
+import { useUpdateSelectedCardId } from "@/hooks/useSelectedCardId"
 
 type Props = {
   card: Card
   height: number
   width: number
+  abstract?: boolean
 }
 
-const Card: React.FC<Props> = ({ card, height, width }) => {
+const Card: React.FC<Props> = ({ card, abstract = false }) => {
 
   const { ref, isMouseOver } = useMouseOver()
 
+  const updateSelectedCardId = useUpdateSelectedCardId()
+
+  const onClick = () => {
+    updateSelectedCardId(card.uuid)
+  }
+
   return (
-    <div ref={ref} className={styles.container}>
-      <CardImage card={card} size="sm" />
+    <div ref={ref} className={styles.container} onClick={onClick}>
+      <CardImage uuid={card.uuid} name={card.name} size="sm" suspend={!abstract} />
       <div className={[styles.overlay, isMouseOver && styles.overlayVisible].join(" ")}></div>
       <CardActions card={card} isVisible={isMouseOver} />
     </div>

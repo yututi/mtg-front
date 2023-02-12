@@ -1,36 +1,41 @@
 import useCardDetail from '@/hooks/useCardDetail';
-import { Card } from '@/lib/gen/axios';
+import { Card, CardDetail } from '@/lib/gen/axios';
 import CardImage from '../CardImage';
 import Skeleton from '../Skeleton';
 import style from "./style.module.scss"
 
 type Props = {
-  card: Card
+  uuid: string
 }
 
-const CardDetail: React.FC<Props> = ({ card }) => {
+const CardDetail: React.FC<Props> = ({ uuid }) => {
+
+
+  const { data } = useCardDetail({
+    uuid
+  })
 
   return (
     <div className={style.container}>
       <div className={style.body}>
         <div className={style.image}>
-          <CardImage card={card} size="lg" />
+          <CardImage uuid={uuid} name={data?.name || "-"} size="lg" />
         </div>
         <div className={style.description}>
-          <CardDescription card={card} />
+          <CardDescription detail={data} />
         </div>
       </div>
     </div>
   )
 }
 
-const CardDescription: React.FC<Props> = ({ card }) => {
+type DescriptionProps = {
+  detail?: CardDetail
+}
 
-  const { data } = useCardDetail({
-    uuid: card.uuid
-  })
+const CardDescription: React.FC<DescriptionProps> = ({ detail }) => {
 
-  if (!data) {
+  if (!detail) {
     return (
       <div>
         <Skeleton />
@@ -40,7 +45,7 @@ const CardDescription: React.FC<Props> = ({ card }) => {
 
   return (
     <div>
-      {data.text}
+      {detail.text}
     </div>
   )
 }

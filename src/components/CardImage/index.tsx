@@ -23,8 +23,10 @@ type Fill = {
 }
 
 type Props = {
-  card: Card
-  onError?: () => void
+  uuid: string,
+  name: string,
+  onError?: () => void,
+  suspend?: boolean
 }
 
 type SizeProps = Props & Size
@@ -34,7 +36,7 @@ type LoadingState = "loading" | "done" | "failed"
 
 const containerClass = [styles.container, flex.vertical].join(" ")
 
-const CardImage: React.FC<SizeProps | FillProps> = ({ card, onError, ...props }) => {
+const CardImage: React.FC<SizeProps | FillProps> = ({ uuid, name, onError, suspend = false, ...props }) => {
 
   const [loadingState, setLoadingState] = useState<LoadingState>("loading")
 
@@ -56,16 +58,16 @@ const CardImage: React.FC<SizeProps | FillProps> = ({ card, onError, ...props })
       {loadingState !== "done" && (
         <div className={[styles.dummyCard, flex.itemGrow].join(" ")}>
           <p>
-            {card.name}
+            {name}
           </p>
         </div>
       )}
-      {loadingState !== "failed" && (
+      {loadingState !== "failed" && suspend && (
         <Image
           className={styles.img}
           unoptimized
-          src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}/${size}/${card.uuid}.webp`}
-          alt={card.name}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}/${size}/${uuid}.webp`}
+          alt={name}
           {...sizeProp}
           onLoad={() => setLoadingState("done")}
           onError={onErrorFacade}

@@ -6,6 +6,7 @@ import ControlPanel from '@/components/search/ControlPanel'
 import Container from "@/components/Container"
 import { DeckListProvider } from '@/state/DeckListContext'
 import { SWRConfig } from 'swr'
+import CardDetailDialog from '@/components/CardDetailDialog'
 
 
 export default function Home() {
@@ -35,6 +36,7 @@ export default function Home() {
               </PaginationProvider>
             </DeckListProvider>
           </Container>
+          <CardDetailDialog />
         </SWRConfig>
       </main>
     </>

@@ -75,7 +75,7 @@ const CheckCardBlockRenderable = (props: ListChildComponentProps) => {
 
   if (props.isScrolling && !value.has(props.index)) {
     return (
-      <div style={props.style} className={styles.col}>
+      <div style={props.style} className={styles.row}>
         <CardBlockSkeleton />
       </div>
     )
@@ -110,7 +110,7 @@ const CardBlock = memo((props: ListChildComponentProps) => {
   const _CardBlock = useMemo(() => {
 
     if (!data) {
-      return <CardBlockSkeleton />
+      return <CardBlockSkeleton animation />
     }
 
     return [...Array(colSize).keys()].map(colIndex => (
@@ -124,7 +124,6 @@ const CardBlock = memo((props: ListChildComponentProps) => {
     ));
   }, [data])
 
-  // TODO 左から埋めるように並び順を変える　
   return (
     <div style={props.style} className={styles.row}>
       {_CardBlock}
@@ -132,16 +131,14 @@ const CardBlock = memo((props: ListChildComponentProps) => {
   )
 })
 
-
-
-const CardBlockSkeleton = () => {
+const CardBlockSkeleton = ({ animation = false }: { animation?: boolean }) => {
 
   return (
     <>
       {[...Array(colSize).keys()].map(colIndex => (
         <div key={colIndex} className={styles.col} style={rowStyle}>
           {[...Array(20).keys()].slice(colIndex * stepSize, colIndex * stepSize + stepSize).map(index => (
-            <Skeleton key={index} animation style={cellStyle} />
+            <Skeleton key={index} animation={animation} style={cellStyle} />
           ))}
         </div>
       ))}
