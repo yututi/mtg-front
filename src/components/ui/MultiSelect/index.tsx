@@ -39,10 +39,10 @@ const MultiSelect: React.FC<Props> = ({
   }
 
   return (
-    <div ref={ref} className={style.selectWrapper}>
+    <div ref={ref} className={style.selectWrapper} onBlur={onBlur}>
       <input type="text" className={input.text} readOnly value={values.map(v => options[v])} onFocus={() => !isVisible && setIsVisible(true)} />
       <Popup offsetY isVisible={isVisible}>
-        <Sheet className={popupClass} onBlur={onBlur}>
+        <Sheet className={popupClass}>
           <div className={optionsClass}>
             {Object.entries(options).map(([key, value]) => (
               <button className={optionClass(values.includes(key))} key={key} onClick={createOnSelectHandler(key)}>{value}</button>
